@@ -19,7 +19,13 @@ mongoose.connect('mongodb+srv://nandeeshps17:HPuWnQc8s9PAIqvc@cluster0.n5rqd.mon
 });
 
 const authRoutes = require('./routes/auth');
+const messageRoutes = require('./routes/messages');
+const userRoutes = require('./routes/users');
+
 app.use('/api/auth', authRoutes);
+app.use('/api/messages', messageRoutes);
+app.use('/api/users', userRoutes);
+
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

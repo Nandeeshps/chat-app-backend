@@ -6,20 +6,18 @@ const User = require('../models/User');
 const router = express.Router();
 
 router.post('/signup', async (req, res) => {
-    const { username, password } = req.body;
-    if (!username || !password) {
-      return res.status(400).send('Username and password are required');
-    }
-    try {
-      const user = new User({ username, password });
-      await user.save();
-      res.status(201).send('User created');
-    } catch (error) {
-      console.error('Error creating user:', error); // Debugging statement
-      res.status(400).send('Error creating user');
-    }
-  });
-  
+  const { username, password } = req.body;
+  if (!username || !password) {
+    return res.status(400).send('Username and password are required');
+  }
+  try {
+    const user = new User({ username, password });
+    await user.save();
+    res.status(201).send('User created');
+  } catch (error) {
+    res.status(400).send('Error creating user');
+  }
+});
 
 router.post('/login', async (req, res) => {
   const { username, password } = req.body;
@@ -33,7 +31,7 @@ router.post('/login', async (req, res) => {
       return res.status(400).send('Invalid credentials');
     }
     const token = jwt.sign({ userId: user._id }, 'your_jwt_secret');
-    res.send({ token });
+    res.send({ token, userId: user._id }); // Include userId in the response
   } catch (error) {
     res.status(400).send('Error logging in');
   }
